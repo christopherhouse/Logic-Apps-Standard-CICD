@@ -7,9 +7,9 @@ var adminPolicies = [for admin in adminUserObjectIds: {
   tenantId: subscription().tenantId
   objectId: admin
   permissions: {
-    keys: ['Get', 'List', 'Create', 'Update', 'Import', 'Delete',  'Recover', 'Backup', 'Restore', 'Recover']
-    certificates: ['Get', 'List', 'Update', 'Create', 'Import', 'Delete', 'Recover', 'Backup', 'Restore', 'ManageContacts']
-    secrets: ['Get', 'List', 'Update', 'Create', 'Import', 'Delete', 'Recover', 'Backup', 'Restore']
+    keys: ['all']
+    secrets: ['all']
+    certificates: ['all']
   }
 }]
 
