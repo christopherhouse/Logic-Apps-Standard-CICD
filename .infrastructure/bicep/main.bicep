@@ -14,6 +14,8 @@ var userAssignedManagedIdentityName = '${baseResourceShortName}-uami'
 var keyVaultName = '${baseResourceShortName}-kv'
 var logAnalyticsWorkspaceName = '${baseResourceShortName}-laws'
 var appInsightsName = '${baseResourceShortName}-ai'
+var logicAppName = '${baseResourceShortName}-la'
+var workflowServicePlanName = '${baseResourceShortName}-wsp'
 
 module logicAppStorage './modules/storageAccount/main.bicep' = {
   name: '${storageAccountName}-${buildId}'
@@ -23,7 +25,7 @@ module logicAppStorage './modules/storageAccount/main.bicep' = {
   }
 }
 
-module managedId './modules/userAssignedManagedIdentity/main.bicep' = {
+module mi './modules/userAssignedManagedIdentity/main.bicep' = {
   name: '${userAssignedManagedIdentityName}-${buildId}'
   params: {
     managedIdentityName: userAssignedManagedIdentityName
@@ -55,5 +57,22 @@ module secrets './modules/keyVault/secrets.bicep' = {
   params: {
     appInsightsName: logs.outputs.appInsightsName
     keyVaultName: keyVault.outputs.name
+    storageAccountName: logicAppStorage.outputs.name
+  }
+}
+
+module la './modules/logicApp/main.bicep' = {
+  name: '${logicAppName}-${buildId}'
+  params: {
+    location: location
+    appInsightsConnectionStringSecretUri: secrets.outputs.appInsightsConnectionStringSecretUri
+    appInsightsInstrumentationKeySecretUri: secrets.outputs.appInsightsInstrumentationKeySecretUri 
+    logAnalyticsWorkspaceId: logs.outputs.logAnalyticsId
+    logicAppName: logicAppName
+    serviceBusNamespaceName: 'tbd'
+    storageAccountName: logicAppStorage.outputs.name
+    storageConnectionStringSecretUri: secrets.outputs.storageAccountConnectionStringSecretUri
+    userAssignedIdentityObjectId: mi.outputs.id
+    workflowServicePlanName: workflowServicePlanName
   }
 }
