@@ -6,7 +6,7 @@ param buildId string = utcNow()
 param adminUserObjectIds array = []
 
 var baseResourceName = '${resourceNamePrefix}-${workloadName}-${environmentName}'
-var baseNameLowerNoDashes = toLower(replace(toLower(baseResourceName), '-', ''))
+var baseNameLowerNoDashes = toLower(replace(baseResourceName, '-', ''))
 var baseResourceShortName = length(baseNameLowerNoDashes) > 22 ? substring(baseNameLowerNoDashes, 0, 22) : baseNameLowerNoDashes
 
 var storageAccountName = '${baseResourceShortName}sa'
