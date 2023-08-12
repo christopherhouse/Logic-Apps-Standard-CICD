@@ -29,10 +29,9 @@ stages:
         vmImage: ubuntu-latest
       environment: ${{ parameters.environmentName }}
       variables:
-        infraTemplate: $(Pipeline.Workspace)/infrastructure/main.bicep
-        parameterFile: $(Pipeline.Workspace)/infrastructure/parameters/main.${{ parameters.environmentName }}.json
-        variableScriptFile: $(Pipeline.Workspace)/scripts/Set-PipelineVariablesFromDeploymentOutput.ps1
-        functionPackage: $(Pipeline.Workspace)/functionapp/functionapp.zip
+        infraTemplate: $(Pipeline.Workspace)/infrastructure/${{ parameters.infraProvider }}/main.${{ parameters.infraProvider }}
+        parameterFile: $(Pipeline.Workspace)/infrastructure/parameters/main.${{ parameters.environmentName }}.json # Will need to look at making this work with TF later
+        lociAppPackage: $(Pipeline.Workspace)/logicapp/logicapp.zip
         setFunctionSecretScriptFile: $(Pipeline.Workspace)/scripts/set-function-key-secret.sh
       strategy:
         runOnce:
@@ -49,5 +48,16 @@ stages:
             - download: current
               artifact: logicapp
               displayName: Download Logic App workflows artifact
-
             
+            - task: AzureResourceManagerTemplateDeployment@3
+              displayName: Deploy infrastructure to ${{ parameters.environmentName}}
+              condition: eq('${{ parameters.infraProvider }}', 'bicep')
+              inputs:
+                deploymentMode: 'Incremental'
+                deploymentScope: 'Resource Group'
+                resourceGroupName: ${{ parameters.resourceGroupName }}
+                location: ${{ parameters.deploymentRegion }}
+                azureResourceManagerConnection: ${{ parameters.serviceConnectionName }}
+                csmFile: ${{ variables.infraTemplate }}
+                csmParametersFile: ${{ variables.parameterFile }}
+                overrideParameters: '-buildId $(Build.BuildId)'            
