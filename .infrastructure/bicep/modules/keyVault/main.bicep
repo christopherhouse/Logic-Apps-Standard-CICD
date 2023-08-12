@@ -8,7 +8,7 @@ var adminPolicies = [for admin in adminUserObjectIds: {
   objectId: admin
   permissions: {
     keys: ['Get', 'List', 'Create', 'Update', 'Import', 'Delete',  'Recover', 'Backup', 'Restore', 'Recover']
-    certificates: ['Get', 'List', 'Update', 'Create', 'Import', 'Delete', 'Recover', 'Backup', 'Restore', 'Manage Contacts', 'Manage Certificate Authorities', 'Get Certificate Authorities', 'List Certificate Authorities', 'Set Certificate Authorities', 'Delete Certificate Authorities']
+    certificates: ['Get', 'List', 'Update', 'Create', 'Import', 'Delete', 'Recover', 'Backup', 'Restore', 'ManageContacts']
     secrets: ['Get', 'List', 'Update', 'Create', 'Import', 'Delete', 'Recover', 'Backup', 'Restore']
   }
 }]

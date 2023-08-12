@@ -58,6 +58,7 @@ stages:
               inputs:
                 deploymentMode: 'Incremental'
                 deploymentScope: 'Resource Group'
+                deploymentName: $(Build.BuildId)
                 resourceGroupName: ${{ parameters.resourceGroupName }}
                 location: ${{ parameters.deploymentRegion }}
                 azureResourceManagerConnection: ${{ parameters.serviceConnectionName }}
