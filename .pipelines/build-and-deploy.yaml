@@ -20,7 +20,7 @@ variables:
  - name: deployToPrd
    value: false
  - name: runDefenderForDevOpsScan
-   value: fasle
+   value: false
  - name: logicAppRootFolder
    value: $(System.DefaultWorkingDirectory)/src/
 
