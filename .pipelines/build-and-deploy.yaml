@@ -11,10 +11,14 @@ trigger:
 pr: none
 
 variables:
- - infraProvider: 'bicep'
- - deployToDev: true
- - deployToQa: false
- - deployToPrd: false
+ - name: infraProvider
+   value: 'bicep'
+ - name: deployToDev
+   value: true
+ - name: deployToQa
+   value: false
+ - name: deployToPrd
+   value: false
 
 stages:
  - stage: Build
