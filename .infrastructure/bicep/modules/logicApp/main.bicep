@@ -12,7 +12,7 @@ param logAnalyticsWorkspaceId string
 resource wsp 'Microsoft.Web/serverfarms@2022-09-01' = {
   name: workflowServicePlanName
   location: location
-  kind: 'elastic'
+  kind: 'functionapp,workflowapp'
   sku: {
     name: 'WS1'
   }
