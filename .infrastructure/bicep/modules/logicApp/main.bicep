@@ -12,7 +12,6 @@ param logAnalyticsWorkspaceId string
 resource wsp 'Microsoft.Web/serverfarms@2022-09-01' = {
   name: workflowServicePlanName
   location: location
-  kind: 'functionapp,workflowapp'
   sku: {
     name: 'WS1'
   }
@@ -23,6 +22,7 @@ resource wsp 'Microsoft.Web/serverfarms@2022-09-01' = {
 resource la 'Microsoft.Web/sites@2022-09-01' = {
   name: logicAppName
   location: location
+  kind: 'functionapp,workflowapp'
   identity: {
     type: 'UserAssigned'
     userAssignedIdentities: {
