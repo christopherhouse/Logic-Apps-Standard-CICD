@@ -19,9 +19,5 @@ terraform {
     }
 
     backend "azurerm" {
-        resource_group_name = "TF-STATE"
-        storage_account_name = "cmhtfstate"
-        container_name = "tf-la-dev"
-        key = "logicapp.tfstate"
     }
 }
