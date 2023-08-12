@@ -4,6 +4,7 @@ parameters:
 - name: infraProvider
   type: string
   default: 'bicep'
+  values: tf
 jobs:
 - job: Build
   pool:

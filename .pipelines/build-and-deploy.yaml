@@ -10,6 +10,12 @@ trigger:
      - '*'
 pr: none
 
+variables:
+ - infraProvider: 'bicep'
+ - deployToDev: true
+ - deployToQa: false
+ - deployToPrd: false
+
 stages:
  - stage: Build
    displayName: Build Infrastructure and Code
@@ -17,3 +23,26 @@ stages:
    - template: templates/build.yaml
      parameters:
        serviceConnectionName: ${{ parameters.serviceConnectionName }}
+       infraProvider: ${{ variables.infraProvider }}
+
+- ${{ if eq(variables.deployToDev, true) }}:
+  - template: templates/deploy.yaml
+    parameters:
+      serviceConnectionName: ${{ parameters.serviceConnectionName }}
+      environmentName: dev
+      resourceGroupName: LA-CI-CD-DEV
+
+
+- ${{ if eq(variables.deployToDev, true) }}:
+  - template: templates/deploy.yaml
+    parameters:
+      serviceConnectionName: ${{ parameters.serviceConnectionName }}
+      environmentName: qa
+      resourceGroupName: LA-CI-CD-QA
+
+- ${{ if eq(variables.deployToDev, true) }}:
+  - template: templates/deploy.yaml
+    parameters:
+      serviceConnectionName: ${{ parameters.serviceConnectionName }}
+      environmentName: prd
+      resourceGroupName: LA-CI-CD-PRD
