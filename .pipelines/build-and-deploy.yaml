@@ -21,6 +21,8 @@ variables:
    value: false
  - name: runDefenderForDevOpsScan
    value: true
+ - name: logicAppRootFolder
+   value: $(System.DefaultWorkingDirectory)/src/
 
 stages:
  - stage: Build
@@ -31,6 +33,7 @@ stages:
        serviceConnectionName: ${{ parameters.serviceConnectionName }}
        infraProvider: ${{ variables.infraProvider }}
        runDefenderForDevOpsScan: ${{ variables.runDefenderForDevOpsScan }}
+       logicAppRootFolder: ${{ variables.logicAppRootFolder }}
 
 
 
