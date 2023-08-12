@@ -91,4 +91,4 @@ stages:
                   terraform init
 
                   echo "Running terraform plan..."
-                  terraform plan -var-file ${{ variables.parameterFile }} -out ${{ variables.tfPlanLocation }}
+                  terraform plan -var-file $(parameterFile) -out $(tfPlanLocation)
