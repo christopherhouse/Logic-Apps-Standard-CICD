@@ -84,7 +84,6 @@ stages:
                 azureSubscription: ${{ parameters.serviceConnectionName }}
                 scriptType: 'bash'
                 scriptLocation: 'inlineScript'
-                workingDirectory: $(Pipeline.Workspace)/infrastructure/
                 inlineScript: |
                   echo "Setting up Terraform backend storage account access..."
                   ARM_ACCESS_KEY=$(az storage account keys list --account-name $(tfStorage) --resource-group $(tfRg) --query "[0].value" -o tsv)
@@ -95,6 +94,7 @@ stages:
               condition: eq('${{ parameters.infraProvider }}', 'tf')
               inputs:
                 targetType: 'inline'
+                workingDirectory: $(Pipeline.Workspace)/infrastructure/
                 script: |
                   echo "Initializing Terraform..."
                   terraform init
