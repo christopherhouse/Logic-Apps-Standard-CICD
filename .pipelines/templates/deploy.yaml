@@ -82,7 +82,7 @@ stages:
                 azureSubscription: ${{ parameters.serviceConnectionName }}
                 scriptType: 'bash'
                 scriptLocation: 'inlineScript'
-                workingDirectory: $(System.DefaultWorkingDirectory)/.infrastructure/${{ parameters.infraProvider }}/
+                workingDirectory: $(Pipeline.Workspace)/infrastructure/
                 inlineScript: |
                   echo "Setting up Terraform backend storage account..."
                   ACCOUNT_KEY=$(az storage account keys list --account-name $(tfStorage) --resource-group $(tfRg) --query "[0].value" -o tsv)
