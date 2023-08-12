@@ -21,7 +21,7 @@ var appPolicies = [for app in applicationUserObjectIds: {
   }
 }]
 
-var policies = union(adminUserObjectIds, appPolicies)
+var policies = union(adminPolicies, appPolicies)
 
 resource keyVault 'Microsoft.KeyVault/vaults@2019-09-01' = {
   name: keyVaultName
