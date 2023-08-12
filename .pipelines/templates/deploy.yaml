@@ -83,13 +83,21 @@ stages:
                 scriptType: 'bash'
                 scriptLocation: 'inlineScript'
                 workingDirectory: $(Pipeline.Workspace)/infrastructure/
-                addSpnToEnvironment: true
                 inlineScript: |
                   echo "Setting up Terraform backend storage account..."
                   ARM_ACCESS_KEY=$(az storage account keys list --account-name $(tfStorage) --resource-group $(tfRg) --query "[0].value" -o tsv)
-          
+                  echo "##vso[task.setvariable variable=tfStorageKey;]$ARM_ACCESS_KEY"
+
+            - task: Bash@3
+              displayName: Build Terraform templates
+              condition: eq('${{ parameters.infraProvider }}', 'tf')
+              inputs:
+                targetType: 'inline'
+                script: |
                   echo "Initializing Terraform..."
                   terraform init
 
                   echo "Running terraform plan..."
                   terraform plan -var-file $(parameterFile) -out $(tfPlanLocation)
+              env:
+                ARM_ACCESS_KEY: $(tfStorageKey)
