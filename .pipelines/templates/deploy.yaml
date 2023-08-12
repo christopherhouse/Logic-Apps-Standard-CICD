@@ -105,3 +105,4 @@ stages:
                   terraform plan -var-file $(parameterFile) -out $(tfPlanLocation)
               env:
                 ARM_ACCESS_KEY: $(tfStorageKey)
+                ARM_USE_CLI: false
