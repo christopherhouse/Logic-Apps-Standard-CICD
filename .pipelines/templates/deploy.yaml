@@ -14,6 +14,8 @@ parameters:
   values:
     - bicep
     - tf
+- name: jobDependencies
+  default: []
 
 stages:
   - stage: Deploy_to__${{ parameters.environmentName }}
@@ -21,6 +23,7 @@ stages:
     jobs:
     - deployment: ${{ parameters.environmentName }}_Deployment
       displayName: ${{ parameters.environmentName }} Deployment
+      dependsOn: ${{ parameters.jobDependencies }}
       pool:
         vmImage: ubuntu-latest
       environment: ${{ parameters.environmentName }}
