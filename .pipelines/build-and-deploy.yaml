@@ -18,7 +18,7 @@ variables:
  - name: deployToQa
    value: true
  - name: deployToPrd
-   value: false
+   value: true
  - name: runDefenderForDevOpsScan
    value: true
 
