@@ -37,9 +37,11 @@ stages:
         vmImage: ubuntu-latest
       environment: ${{ parameters.environmentName }}
       variables:
-        infraTemplateExtension: condition('eq('${{ parameters.infraProvider }}', 'bicep')', 'bicep', 'tf')
         infraTemplate: $(Pipeline.Workspace)/infrastructure/main.${{ parameters.infraProvider }}
-        parameterFile: $(Pipeline.Workspace)/infrastructure/parameters/main.${{ parameters.environmentName }}.${{ variables.infraTemplateExtension}} # Will need to look at making this work with TF later
+        ${{ if eq(parameters.infraProvider, 'bicep') }}:
+          parameterFile: $(Pipeline.Workspace)/infrastructure/parameters/main.${{ parameters.environmentName }}.json
+        ${{ if eq(parameters.infraProvider, 'tf') }}:
+          parameterFile: $(Pipeline.Workspace)/infrastructure/parameters/main.${{ parameters.environmentName }}.tfvars
         lociAppPackage: $(Pipeline.Workspace)/logicapp/logicapp.zip
         setFunctionSecretScriptFile: $(Pipeline.Workspace)/scripts/set-function-key-secret.sh
         tfPlanLocation: $(Build.ArtifactStagingDirectory)/deployment.tfplan
@@ -76,7 +78,7 @@ stages:
                 overrideParameters: '-buildId $(Build.BuildId)'
 
             - task: AzureCLI@2
-              displayName: Build Terraform templates
+              displayName: Configure Terraform azurerm backend
               condition: eq('${{ parameters.infraProvider }}', 'tf')
               inputs:
                 azureSubscription: ${{ parameters.serviceConnectionName }}
