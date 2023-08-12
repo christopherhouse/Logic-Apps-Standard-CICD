@@ -20,6 +20,12 @@ parameters:
 - name: createRbacAssignments
   type: boolean
   default: true
+- name: tfStateStorageAccountName
+  type: string
+  default: ''
+- name: tfStateStorageAccountResourceGroupName
+  type: string
+  default: ''
 
 stages:
   - stage: Deploy_to_${{ parameters.environmentName }}
@@ -32,10 +38,12 @@ stages:
         vmImage: ubuntu-latest
       environment: ${{ parameters.environmentName }}
       variables:
+        infraTemplateExtension: condition('eq('${{ parameters.infraProvider }}', 'bicep')', 'bicep', 'tf')
         infraTemplate: $(Pipeline.Workspace)/infrastructure/main.${{ parameters.infraProvider }}
-        parameterFile: $(Pipeline.Workspace)/infrastructure/parameters/main.${{ parameters.environmentName }}.json # Will need to look at making this work with TF later
+        parameterFile: $(Pipeline.Workspace)/infrastructure/parameters/main.${{ parameters.environmentName }}.${{ variables.infraTemplateExtension}} # Will need to look at making this work with TF later
         lociAppPackage: $(Pipeline.Workspace)/logicapp/logicapp.zip
         setFunctionSecretScriptFile: $(Pipeline.Workspace)/scripts/set-function-key-secret.sh
+        tfPlanLocation: $(Build.ArtifactStagingDirectory)/deployment.tfplan
       strategy:
         runOnce:
           deploy:
@@ -64,4 +72,22 @@ stages:
                 azureResourceManagerConnection: ${{ parameters.serviceConnectionName }}
                 csmFile: ${{ variables.infraTemplate }}
                 csmParametersFile: ${{ variables.parameterFile }}
-                overrideParameters: '-buildId $(Build.BuildId)'            
+                overrideParameters: '-buildId $(Build.BuildId)'
+
+            - task: AzureCLI@2
+              displayName: Build Terraform templates
+              condition: eq('${{ parameters.infraProvider }}', 'tf')
+              inputs:
+                azureSubscription: ${{ parameters.serviceConnectionName }}
+                scriptType: 'bash'
+                scriptLocation: 'inlineScript'
+                workingDirectory: $(System.DefaultWorkingDirectory)/.infrastructure/${{ parameters.infraProvider }}/
+                inlineScript: |
+                  echo "Setting up Terraform backend storage account..."
+                  ACCOUNT_KEY=$(az storage account keys list --account-name ${{ parameters.tfStateStorageAccountName }} --resource-group ${{ parameters.tfStateStorageAccountResourceGroupName }} --query "[0].value" -o tsv)
+          
+                  echo "Initializing Terraform..."
+                  terraform init
+
+                  echo "Running terraform plan..."
+                  terraform plan -var-file ${{ variables.parameterFile }} -out ${{ variables.tfPlanLocation }}

@@ -22,7 +22,8 @@ jobs:
     mainBicepPath: $(System.DefaultWorkingDirectory)/.infrastructure/bicep/main.bicep
   steps:
     - task: Bash@3 # Will need to very this by infra provider
-      displayName: Build Infrastructure Templates
+      displayName: Build Bicep templates
+      condition: eq('${{ parameters.infraProvider }}', 'bicep')
       inputs:
         targetType: 'inline'
         script: |
@@ -30,9 +31,10 @@ jobs:
 
     - task: PowerShell@2
       displayName: Generate ARM parameters from *.bicepparam
+      condition: eq('${{ parameters.infraProvider }}', 'bicep')
       inputs:
         workingDirectory: $(System.DefaultWorkingDirectory)/.infrastructure/${{ parameters.infraProvider }}/parameters/
-        filePath: $(armParametersScriptPath)
+        filePath: $(armParametersScriptPath)        
 
     - task: ArchiveFiles@2
       displayName: Package Logic App Workflows
