@@ -83,6 +83,7 @@ stages:
                 scriptType: 'bash'
                 scriptLocation: 'inlineScript'
                 workingDirectory: $(Pipeline.Workspace)/infrastructure/
+                addSpnToEnvironment: true
                 inlineScript: |
                   echo "Setting up Terraform backend storage account..."
                   ARM_ACCESS_KEY=$(az storage account keys list --account-name $(tfStorage) --resource-group $(tfRg) --query "[0].value" -o tsv)
