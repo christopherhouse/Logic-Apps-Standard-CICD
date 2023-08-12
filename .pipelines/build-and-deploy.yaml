@@ -16,9 +16,11 @@ variables:
  - name: deployToDev
    value: true
  - name: deployToQa
-   value: false
+   value: true
  - name: deployToPrd
    value: false
+ - name: runDefenderForDevOpsScan
+   value: true
 
 stages:
  - stage: Build
@@ -28,6 +30,7 @@ stages:
      parameters:
        serviceConnectionName: ${{ parameters.serviceConnectionName }}
        infraProvider: ${{ variables.infraProvider }}
+       runDefenderForDevOpsScan: ${{ variables.runDefenderForDevOpsScan }}
 
 
 

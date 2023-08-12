@@ -6,6 +6,9 @@ parameters:
   values:
   - bicep
   - tf
+- name: runDefenderForDevOpsScan
+  type: boolean
+  default: true
 
 jobs:
 - job: Build
@@ -31,6 +34,7 @@ jobs:
 
     - task: MicrosoftSecurityDevOps@1
       displayName: 'Microsoft Security DevOps'
+      condition: eq(variables.runDefenderForDevOpsScan, true)
       inputs:
         categories: 'IaC'
     
