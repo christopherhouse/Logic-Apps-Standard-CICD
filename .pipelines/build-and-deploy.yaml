@@ -40,6 +40,7 @@ stages:
        serviceConnectionName: ${{ parameters.serviceConnectionName }}
        environmentName: dev
        resourceGroupName: LA-CI-CD-DEV
+       stageDependencies: [Build]
 
 
  - ${{ if eq(variables.deployToQa, true) }}:
