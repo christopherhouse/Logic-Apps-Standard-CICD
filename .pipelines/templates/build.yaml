@@ -9,6 +9,8 @@ parameters:
 - name: runDefenderForDevOpsScan
   type: boolean
   default: true
+- name: logicAppRootFolder
+  type: string
 
 jobs:
 - job: Build
@@ -32,20 +34,29 @@ jobs:
         workingDirectory: $(System.DefaultWorkingDirectory)/.infrastructure/${{ parameters.infraProvider }}/parameters/
         filePath: $(armParametersScriptPath)
 
+    - task: ArchiveFiles@2
+      displayName: Package Logic App Workflows
+      inputs:
+        rootFolderOrFile: ${{ parameters.logicAppRootFolder }}
+        includeRootFolder: false
+        archiveType: zip
+        archiveFile: $(Build.ArtifactStagingDirectory)/logicapp.zip
+        replaceExistingArchive: true
+
     - task: MicrosoftSecurityDevOps@1
       displayName: 'Microsoft Security DevOps'
       condition: eq(variables.runDefenderForDevOpsScan, true)
       inputs:
         categories: 'IaC'
     
-    - task: PublishPipelineArtifact@1
+    - publish: $(System.DefaultWorkingDirectory)/.infrastructure/
       displayName: Publish Infrastructure Artifacts
-      inputs:
-        artifactName: infrastructure
-        targetPath: $(System.DefaultWorkingDirectory)/.infrastructure/
-    
-    - task: PublishPipelineArtifact@1
+      artifact: infrastructure
+
+    - publish: $$(System.DefaultWorkingDirectory)/.pipelines/scripts/
       displayName: Publish Pipeline Scripts
-      inputs:
-        artifactName: scripts
-        targetPath: $(System.DefaultWorkingDirectory)/.pipelines/scripts/
+      artifact: scripts
+    
+    - publish: $(Build.ArtifactStagingDirectory)/logicapp.zip
+      displayName: Publish Logic App Workflows
+      artifact: logicapp
