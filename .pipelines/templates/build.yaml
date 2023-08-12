@@ -53,7 +53,7 @@ jobs:
       displayName: Publish Infrastructure Artifacts
       artifact: infrastructure
 
-    - publish: $$(System.DefaultWorkingDirectory)/.pipelines/scripts/
+    - publish: $(System.DefaultWorkingDirectory)/.pipelines/scripts/
       displayName: Publish Pipeline Scripts
       artifact: scripts
     
