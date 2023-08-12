@@ -97,7 +97,7 @@ stages:
                 workingDirectory: $(Pipeline.Workspace)/infrastructure/
                 script: |
                   echo "Initializing Terraform..."
-                  terraform init
+                  terraform init -backend-config=$(Pipeline.Workspace)/infrastructure/config/azurerm.dev.conf
 
                   echo "Running terraform plan..."
                   echo "Param file: $(parameterFile)"
