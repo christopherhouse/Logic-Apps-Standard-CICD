@@ -32,8 +32,8 @@ stages:
         vmImage: ubuntu-latest
       environment: ${{ parameters.environmentName }}
       variables:
-        infraTemplate: $(Pipeline.Workspace)/infrastructure/${{ parameters.infraProvider }}/main.${{ parameters.infraProvider }}
-        parameterFile: $(Pipeline.Workspace)/infrastructure/parameters/${{ parameters.infraProvider }}/main.${{ parameters.environmentName }}.json # Will need to look at making this work with TF later
+        infraTemplate: $(Pipeline.Workspace)/infrastructure/main.${{ parameters.infraProvider }}
+        parameterFile: $(Pipeline.Workspace)/infrastructure/parameters/main.${{ parameters.environmentName }}.json # Will need to look at making this work with TF later
         lociAppPackage: $(Pipeline.Workspace)/logicapp/logicapp.zip
         setFunctionSecretScriptFile: $(Pipeline.Workspace)/scripts/set-function-key-secret.sh
       strategy:

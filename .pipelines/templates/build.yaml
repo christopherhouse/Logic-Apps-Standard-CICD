@@ -21,7 +21,7 @@ jobs:
     armParametersScriptPath: $(System.DefaultWorkingDirectory)/.pipelines/scripts/Add-ArmParametersFromBicepparamFiles.ps1
     mainBicepPath: $(System.DefaultWorkingDirectory)/.infrastructure/bicep/main.bicep
   steps:
-    - task: Bash@3
+    - task: Bash@3 # Will need to very this by infra provider
       displayName: Build Infrastructure Templates
       inputs:
         targetType: 'inline'
@@ -49,7 +49,7 @@ jobs:
       inputs:
         categories: 'IaC'
     
-    - publish: $(System.DefaultWorkingDirectory)/.infrastructure/
+    - publish: $(System.DefaultWorkingDirectory)/.infrastructure/${{ parameters.infraProvider }}/
       displayName: Publish Infrastructure Artifacts
       artifact: infrastructure
 
