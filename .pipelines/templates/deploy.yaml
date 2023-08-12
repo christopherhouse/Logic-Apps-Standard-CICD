@@ -15,6 +15,7 @@ parameters:
     - bicep
     - tf
 - name: jobDependencies
+  type: object
   default: []
 
 stages:
