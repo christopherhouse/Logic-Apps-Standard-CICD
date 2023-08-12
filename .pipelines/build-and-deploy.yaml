@@ -45,6 +45,8 @@ stages:
        resourceGroupName: LA-CI-CD-DEV
        stageDependencies: [Build]
        infraProvider: ${{ variables.infraProvider }}
+       tfStateStorageAccountName: "cmhtfstate"
+       tfStateStorageAccountResourceGroupName: TF   
 
 
  - ${{ if eq(variables.deployToQa, true) }}:
@@ -55,6 +57,8 @@ stages:
        resourceGroupName: LA-CI-CD-QA
        stageDependencies: [Deploy_to_dev]
        infraProvider: ${{ variables.infraProvider }}
+       tfStateStorageAccountName: ""
+       tfStateStorageAccountResourceGroupName: ""
 
  - ${{ if eq(variables.deployToPrd, true) }}:
    - template: templates/deploy.yaml
@@ -64,3 +68,6 @@ stages:
        resourceGroupName: LA-CI-CD-PRD
        stageDependencies: [Deploy_to_qa]
        infraProvider: ${{ variables.infraProvider }}
+       tfStateStorageAccountName: ""
+       tfStateStorageAccountResourceGroupName: ""
+
