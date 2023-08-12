@@ -1,6 +1,9 @@
 parameters:
 - name: serviceConnectionName
   type: string
+- name: infraProvider
+  type: string
+  default: 'bicep'
 jobs:
 - job: Build
   pool:
@@ -20,7 +23,7 @@ jobs:
     - task: PowerShell@2
       displayName: Generate ARM parameters from *.bicepparam
       inputs:
-        workingDirectory: $(System.DefaultWorkingDirectory)/.infrastructure/parameters/
+        workingDirectory: $(System.DefaultWorkingDirectory)/.infrastructure/${{ parameters.infraProvider }}/parameters/
         filePath: $(armParametersScriptPath)
 
     - task: MicrosoftSecurityDevOps@1
