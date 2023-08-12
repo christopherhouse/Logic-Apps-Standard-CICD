@@ -38,7 +38,7 @@ module keyVault './modules/keyVault/main.bicep' = {
   params: {
     keyVaultName: keyVaultName
     location: location
-    applicationUserObjectIds: []
+    applicationUserObjectIds: [ mi.outputs.principalId ]
     adminUserObjectIds: adminUserObjectIds
   }
 }
