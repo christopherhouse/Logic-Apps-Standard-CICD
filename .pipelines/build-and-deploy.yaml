@@ -39,14 +39,14 @@ stages:
        resourceGroupName: LA-CI-CD-DEV
 
 
- - ${{ if eq(variables.deployToDev, true) }}:
+ - ${{ if eq(variables.deployToQa, true) }}:
    - template: templates/deploy.yaml
      parameters:
        serviceConnectionName: ${{ parameters.serviceConnectionName }}
        environmentName: qa
        resourceGroupName: LA-CI-CD-QA
 
- - ${{ if eq(variables.deployToDev, true) }}:
+ - ${{ if eq(variables.deployToPrd, true) }}:
    - template: templates/deploy.yaml
      parameters:
        serviceConnectionName: ${{ parameters.serviceConnectionName }}

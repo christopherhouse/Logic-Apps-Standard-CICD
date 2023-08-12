@@ -3,7 +3,6 @@ parameters:
   type: string
 - name: infraProvider
   type: string
-  default: 'bicep'
   values:
   - bicep
   - tf
