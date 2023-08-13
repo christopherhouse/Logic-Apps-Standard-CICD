@@ -122,3 +122,7 @@ stages:
                 ARM_SUBSCRIPTION_ID: ${{ parameters.subscriptionId }}
                 ARM_CLIENT_ID: $(armClientId)
                 ARM_CLIENT_SECRET: $(armClientSecret)
+
+            - publish: $(Build.ArtifactStagingDirectory)/deployment.tfplan
+              artifact: tfplan-${{ parameters.environmentName }}
+              displayName: Publish Terraform plan artifact)
