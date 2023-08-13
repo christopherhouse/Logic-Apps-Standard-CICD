@@ -96,6 +96,8 @@ stages:
                 targetType: 'inline'
                 workingDirectory: $(Pipeline.Workspace)/infrastructure/
                 script: |
+                  echo "Is our access key here?"
+                  echo $ARM_ACESS_KEY | wc - c
                   echo "Initializing Terraform..."
                   terraform init -backend-config=$(Pipeline.Workspace)/infrastructure/config/azurerm.dev.conf
 
