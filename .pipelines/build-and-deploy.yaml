@@ -46,7 +46,10 @@ stages:
        stageDependencies: [Build]
        infraProvider: ${{ variables.infraProvider }}
        tfStateStorageAccountName: "cmhtfstate"
-       tfStateStorageAccountResourceGroupName: TF   
+       tfStateStorageAccountResourceGroupName: TF
+       subscriptionId: '*'
+       terraformKeyVaultName: ''
+       terraformKeyVaultResourceGroupName: ''
 
 
  - ${{ if eq(variables.deployToQa, true) }}:
@@ -59,6 +62,9 @@ stages:
        infraProvider: ${{ variables.infraProvider }}
        tfStateStorageAccountName: ""
        tfStateStorageAccountResourceGroupName: ""
+       subscriptionId: '*'
+       terraformKeyVaultName: ''
+       terraformKeyVaultResourceGroupName: ''
 
  - ${{ if eq(variables.deployToPrd, true) }}:
    - template: templates/deploy.yaml
@@ -70,4 +76,7 @@ stages:
        infraProvider: ${{ variables.infraProvider }}
        tfStateStorageAccountName: ""
        tfStateStorageAccountResourceGroupName: ""
+       subscriptionId: '*'
+       terraformKeyVaultName: ''
+       terraformKeyVaultResourceGroupName: ''
 
