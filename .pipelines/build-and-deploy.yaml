@@ -47,7 +47,7 @@ stages:
        infraProvider: ${{ variables.infraProvider }}
        tfStateStorageAccountName: "cmhtfstate"
        tfStateStorageAccountResourceGroupName: TF
-       subscriptionId: '*'
+       subscriptionId: 'e1f57a36-4892-4716-9a3f-661432b39dbe'
        terraformKeyVaultName: 'tf-deploy-kv'
 
 
