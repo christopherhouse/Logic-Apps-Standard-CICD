@@ -48,8 +48,7 @@ stages:
        tfStateStorageAccountName: "cmhtfstate"
        tfStateStorageAccountResourceGroupName: TF
        subscriptionId: '*'
-       terraformKeyVaultName: ''
-       terraformKeyVaultResourceGroupName: ''
+       terraformKeyVaultName: 'tf-deploy-kv'
 
 
  - ${{ if eq(variables.deployToQa, true) }}:
@@ -64,7 +63,6 @@ stages:
        tfStateStorageAccountResourceGroupName: ""
        subscriptionId: '*'
        terraformKeyVaultName: ''
-       terraformKeyVaultResourceGroupName: ''
 
  - ${{ if eq(variables.deployToPrd, true) }}:
    - template: templates/deploy.yaml
@@ -78,5 +76,4 @@ stages:
        tfStateStorageAccountResourceGroupName: ""
        subscriptionId: '*'
        terraformKeyVaultName: ''
-       terraformKeyVaultResourceGroupName: ''
 

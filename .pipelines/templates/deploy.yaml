@@ -30,8 +30,6 @@ parameters:
   default: ''
 - name: terraformKeyVaultName
   type: string
-- name: terraformKeyVaultResourceGroupName
-  type: string
 
 stages:
   - stage: Deploy_to_${{ parameters.environmentName }}
