@@ -109,10 +109,6 @@ stages:
                 targetType: 'inline'
                 workingDirectory: $(Pipeline.Workspace)/infrastructure/
                 script: |
-                  ARM_CLIENT_ID=$(az keyvault secret show --vault-name ${{ parameters.terraformKeyVaultName }} --name ARM-CLIENT-ID --query value -o tsv)
-                  ARM_CLIENT_SECRET=$(az keyvault secret show --vault-name ${{ parameters.terraformKeyVaultName }} --name ARM-CLIENT-SECRET --query value -o tsv)
-                  ARM_TENANT_ID=$(az keyvault secret show --vault-name ${{ parameters.terraformKeyVaultName }} --name ARM-TENANT-ID --query value -o tsv)
-
                   echo "Initializing Terraform..."
                   terraform init -backend-config=$(Pipeline.Workspace)/infrastructure/config/azurerm.dev.conf
 
