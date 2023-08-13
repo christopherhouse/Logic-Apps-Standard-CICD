@@ -91,9 +91,6 @@ stages:
                 scriptLocation: 'inlineScript'
                 inlineScript: |
                   echo "Setting up Terraform backend storage account access..."
-                  ARM_ACCESS_KEY=$(az storage account keys list --account-name $(tfStorage) --resource-group $(tfRg) --query "[0].value" -o tsv)
-                  echo "##vso[task.setvariable variable=tfStorageKey;]$ARM_ACCESS_KEY"
-
                   ARM_CLIENT_ID=$(az keyvault secret show --vault-name ${{ parameters.terraformKeyVaultName }} --name ARM-CLIENT-ID --query value -o tsv)
                   ARM_CLIENT_SECRET=$(az keyvault secret show --vault-name ${{ parameters.terraformKeyVaultName }} --name ARM-CLIENT-SECRET --query value -o tsv)
                   ARM_TENANT_ID=$(az keyvault secret show --vault-name ${{ parameters.terraformKeyVaultName }} --name ARM-TENANT-ID --query value -o tsv)
@@ -116,10 +113,12 @@ stages:
                   echo "Param file: $(parameterFile)"
                   echo "Plan file: $(tfPlanLocation)"
                   terraform plan -var-file $(parameterFile) -out $(tfPlanLocation)
+
+                  echo ** Running terraform apply for $(tfPlanLocation) **
+                  terraform apply $(tfPlanLocation)
               env:
                 ARM_USE_CLI: false
                 ARM_TENANT_ID: $(armTenantId)
                 ARM_SUBSCRIPTION_ID: ${{ parameters.subscriptionId }}
                 ARM_CLIENT_ID: $(armClientId)
                 ARM_CLIENT_SECRET: $(armClientSecret)
-                # ARM_ACCESS_KEY: $(tfStorageKey)
