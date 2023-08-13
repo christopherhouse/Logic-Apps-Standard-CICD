@@ -25,6 +25,13 @@ parameters:
 - name: tfStateStorageAccountResourceGroupName
   type: string
   default: ''
+- name: subscriptionId
+  type: string
+  default: ''
+- name: terraformKeyVaultName
+  type: string
+- name: terraformKeyVaultResourceGroupName
+  type: string
 
 stages:
   - stage: Deploy_to_${{ parameters.environmentName }}
@@ -89,6 +96,11 @@ stages:
                   ARM_ACCESS_KEY=$(az storage account keys list --account-name $(tfStorage) --resource-group $(tfRg) --query "[0].value" -o tsv)
                   echo "##vso[task.setvariable variable=tfStorageKey;]$ARM_ACCESS_KEY"
 
+                  FOO="bar bar bar bar baz"
+                  echo "##vso[task.setvariable variable=FOO;]$FOO"
+
+
+
             - task: Bash@3
               displayName: Build Terraform templates
               condition: eq('${{ parameters.infraProvider }}', 'tf')
@@ -96,6 +108,7 @@ stages:
                 targetType: 'inline'
                 workingDirectory: $(Pipeline.Workspace)/infrastructure/
                 script: |
+                  echo "What about Foo? $FOO"
                   echo "Is our access key here?"
                   echo $ARM_ACESS_KEY | wc - c
                   echo "Initializing Terraform..."
@@ -108,3 +121,7 @@ stages:
               env:
                 ARM_ACCESS_KEY: $(tfStorageKey)
                 ARM_USE_CLI: false
+                ARM_TENANT_ID: ''
+                ARM_SUBSCRIPTION_ID: ${{ parameters.subscriptionId }}
+                ARM_CLIENT_ID: ''
+                FOO: $(FOO)
