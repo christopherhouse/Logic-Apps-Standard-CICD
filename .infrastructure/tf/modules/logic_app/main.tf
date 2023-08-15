@@ -15,7 +15,15 @@ resource "azurerm_logic_app_standard" la {
     storage_account_access_key = var.storage_account_key
 
     app_settings = {
-
+      "APP_KIND" = "workflowapp"
+      "ApplicationInsightsAgent_EXTENSION_VERSION" = "~3"
+      "ServiceBus_Namespace_HostName" = ""
+      "StorageAccount_Name" = ""
+      "XDT_MicrosoftApplicationInsights_Mode" = "recommended"
+      "FUNCTIONS_EXTENSION_VERSION" = "~4"
+      "AzureWebJobsStorage" = ""
+      "FUNCTIONS_WORKER_RUNTIME" = "dotnet-isolated"
+      "WebJobsFeatureFlags" = "EnableMultiLanguageWorker"
     }
 
     identity {
