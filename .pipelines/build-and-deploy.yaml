@@ -26,7 +26,7 @@ stages:
    jobs:
    - template: templates/build.yaml
      parameters:
-       serviceConnectionName: ${{ parameters.serviceConnectionName }}
+       serviceConnectionName: ${{ variables.serviceConnectionName }}
        infraProvider: ${{ variables.infraProvider }}
        runDefenderForDevOpsScan: ${{ variables.runDefenderForDevOpsScan }}
        logicAppRootFolder: ${{ variables.logicAppRootFolder }}
@@ -36,7 +36,7 @@ stages:
  - ${{ if eq(variables.deployToDev, true) }}:
    - template: templates/deploy.yaml
      parameters:
-       serviceConnectionName: ${{ parameters.serviceConnectionName }}
+       serviceConnectionName: ${{ variables.serviceConnectionName }}
        environmentName: dev
        resourceGroupName: LA-CI-CD-DEV
        stageDependencies: [Build]
@@ -50,7 +50,7 @@ stages:
  - ${{ if eq(variables.deployToQa, true) }}:
    - template: templates/deploy.yaml
      parameters:
-       serviceConnectionName: ${{ parameters.serviceConnectionName }}
+       serviceConnectionName: ${{ variables.serviceConnectionName }}
        environmentName: qa
        resourceGroupName: LA-CI-CD-QA
        stageDependencies: [Deploy_to_dev]
