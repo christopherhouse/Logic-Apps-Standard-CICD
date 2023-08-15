@@ -24,7 +24,7 @@ module "kv" {
     location = var.location
     resource_group_name = var.resource_group_name
     key_vault_name = local.key_vault_name
-    admin_object_id = var.key_vault_admin_object_id
+    admin_object_ids = var.key_vault_admin_object_ids
     logic_app_managed_identity_object_id = module.mi.user_assigned_managed_identity_principal_id
 }
 

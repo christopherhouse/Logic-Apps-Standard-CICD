@@ -23,6 +23,6 @@ variable "log_retention_days" {
     default = 90
 }
 
-variable "key_vault_admin_object_id" {
-    type = string
+variable "key_vault_admin_object_ids" {
+    type = list(string)
 }

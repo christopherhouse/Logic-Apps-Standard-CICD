@@ -13,9 +13,9 @@ variable "location" {
     description = "The Azure region where the Key Vault will be created"
 }
 
-variable "admin_object_id" {
-    type = string
-    description = "The object ID of the user or service principal that will be granted admin access to the Key Vault"
+variable "admin_object_ids" {
+    type = list(string)
+    description = "The object IDs of the users or service principals that will be granted admin access to the Key Vault"
 }
 
 variable logic_app_managed_identity_object_id {
