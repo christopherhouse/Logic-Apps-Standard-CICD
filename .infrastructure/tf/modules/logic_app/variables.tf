@@ -26,3 +26,8 @@ variable "storage_account_key" {
 variable "user_assigned_identity_id" {
     type = string
 }
+
+variable "web_jobs_storage_connection_string" {
+    type = string
+    sensitive = true
+}

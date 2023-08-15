@@ -21,7 +21,7 @@ resource "azurerm_logic_app_standard" la {
       "StorageAccount_Name" = ""
       "XDT_MicrosoftApplicationInsights_Mode" = "recommended"
       "FUNCTIONS_EXTENSION_VERSION" = "~4"
-      "AzureWebJobsStorage" = ""
+      "AzureWebJobsStorage" = var.web_jobs_storage_connection_string
       "FUNCTIONS_WORKER_RUNTIME" = "dotnet-isolated"
       "WebJobsFeatureFlags" = "EnableMultiLanguageWorker"
     }

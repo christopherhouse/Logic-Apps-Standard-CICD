@@ -35,6 +35,13 @@ module "sa" {
     storage_account_name = local.storage_account_name
 }
 
+module "saconnstr" {
+    source = "./modules/key_vault_secret"
+    secret_name = "AzureWebJobsStorageConnectionString"
+    key_vault_id = module.kv.id
+    secret_value = module.sa.primary_connection_string
+}
+
 module la {
     source = "./modules/logic_app"
     location = var.location
@@ -42,6 +49,7 @@ module la {
     logic_app_name = local.logic_app_name
     storage_account_name = module.sa.storage_account_name
     managed_identity_name = local.managed_identity_name
-    storage_account_key = module.sa.storage_account_primary_access_key
+    storage_account_key = module.sa.storage_account_primary_connection_string
     user_assigned_identity_id = module.mi.id
+    web_jobs_storage_connection_string = "@Microsoft.KeyVault(SecretUri={module.saconnstr.secret_uri})"
 }
