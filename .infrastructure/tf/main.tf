@@ -27,3 +27,21 @@ module "kv" {
     admin_object_id = var.key_vault_admin_object_id
     logic_app_managed_identity_object_id = module.mi.user_assigned_managed_identity_principal_id
 }
+
+module "sa" {
+    source = "./modules/storage_account"
+    location = var.location
+    resource_group_name = var.resource_group_name
+    storage_account_name = local.storage_account_name
+}
+
+module la {
+    source = "./modules/logic_app"
+    location = var.location
+    resource_group_name = var.resource_group_name
+    logic_app_name = local.logic_app_name
+    storage_account_name = module.sa.storage_account_name
+    managed_identity_name = local.managed_identity_name
+    storage_account_key = module.sa.storage_account_primary_access_key
+    user_assigned_identity_id = module.mi.id
+}

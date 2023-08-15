@@ -6,4 +6,6 @@ locals {
     application_insights_name = "${local.base_resource_name}-ai"
     key_vault_name = "${local.base_resource_name}-kv"
     managed_identity_name = "${local.base_resource_name}-uami"
+    logic_app_name = "${local.base_resource_name}-la"
+    storage_account_name = "${local.base_name_short}sa"
 }

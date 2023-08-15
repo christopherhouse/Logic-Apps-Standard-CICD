@@ -4,12 +4,11 @@ output "id" {
 
 }
 
-output "primary_web_hostname" {
-    value = replace(replace(azurerm_storage_account.storage.primary_web_endpoint, "https://", ""), "/", "")
-    description = "The primary web endpoint of the storage account."
+output "storage_account_name" {
+    value = azurerm_storage_account.storage.name
 }
 
-output "secondary_web_hostname" {
-    value = replace(replace(azurerm_storage_account.storage.secondary_web_endpoint, "https://", ""), "/", "")
-    description = "The secondary web endpoint of the storage account."
+output "storage_account_primary_access_key" {
+    value = azurerm_storage_account.storage.primary_access_key
+    sensitive = true
 }

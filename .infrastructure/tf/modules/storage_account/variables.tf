@@ -23,8 +23,3 @@ variable "storage_sku" {
         error_message = "Invalid storage SKU"
     }
 }
-
-variable "home_ip_address" {
-    type = string
-    description = "IP address of the home network"
-}
