@@ -19,3 +19,9 @@ resource "azurerm_role_assignment" "kv_admin" {
     role_definition_name = "Key Vault Administrator"
     principal_id = each.value
 }
+
+resource "azurerm_role_assignment" kv_la {
+    scope = azurerm_key_vault.kv.id
+    role_definition_name = "Key Vault Secrets User"
+    principal_id = var.logic_app_managed_identity_object_id
+}
