@@ -39,7 +39,7 @@ module "saconnstr" {
     source = "./modules/key_vault_secret"
     secret_name = "AzureWebJobsStorageConnectionString"
     key_vault_id = module.kv.id
-    secret_value = module.sa.primary_connection_string
+    secret_value = module.sa.storage_account_primary_connection_string
 }
 
 module la {
