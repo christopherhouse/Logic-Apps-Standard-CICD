@@ -10,12 +10,12 @@ var baseNameLowerNoDashes = toLower(replace(baseResourceName, '-', ''))
 var baseResourceShortName = length(baseNameLowerNoDashes) > 22 ? substring(baseNameLowerNoDashes, 0, 22) : baseNameLowerNoDashes
 
 var storageAccountName = '${baseResourceShortName}sa'
-var userAssignedManagedIdentityName = '${baseResourceShortName}-uami'
-var keyVaultName = '${baseResourceShortName}-kv'
-var logAnalyticsWorkspaceName = '${baseResourceShortName}-laws'
-var appInsightsName = '${baseResourceShortName}-ai'
-var logicAppName = '${baseResourceShortName}-la'
-var workflowServicePlanName = '${baseResourceShortName}-wsp'
+var userAssignedManagedIdentityName = '${baseResourceName}-uami'
+var keyVaultName = '${baseResourceName}-kv'
+var logAnalyticsWorkspaceName = '${baseResourceName}-laws'
+var appInsightsName = '${baseResourceName}-ai'
+var logicAppName = '${baseResourceName}-la'
+var workflowServicePlanName = '${baseResourceName}-wsp'
 
 module logicAppStorage './modules/storageAccount/main.bicep' = {
   name: '${storageAccountName}-${buildId}'
