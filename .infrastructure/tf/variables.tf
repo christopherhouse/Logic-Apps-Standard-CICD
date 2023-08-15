@@ -14,10 +14,6 @@ variable "location" {
     type = string
 }
 
-variable "admin_user_object_ids" {
-    type = list(string)
-}
-
 variable "resource_group_name" {
     type = string
 }
@@ -25,4 +21,8 @@ variable "resource_group_name" {
 variable "log_retention_days" {
     type = number
     default = 90
+}
+
+variable "key_vault_admin_object_id" {
+    type = string
 }
