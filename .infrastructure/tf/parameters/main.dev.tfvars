@@ -1,4 +1,4 @@
-workload_name = "la-cicd"
+workload_name = "la-devops"
 environment_name = "dev"
 resource_name_prefix = "cmtf"
 location = "eastus"
