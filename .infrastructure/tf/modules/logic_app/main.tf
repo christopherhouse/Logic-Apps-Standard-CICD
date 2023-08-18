@@ -42,7 +42,7 @@ resource azapi_resource "la" {
     parent_id = data.azurerm_resource_group.rg.id
     location = var.location
     identity {
-        typoe = "UserAssigned"
+        type = "UserAssigned"
         identity_ids = [var.user_assigned_identity_id]
     }
     body = jsonencode({
