@@ -41,62 +41,60 @@ resource azapi_resource "la" {
     name = var.logic_app_name
     parent_id = data.azurerm_resource_group.rg.id
     location = var.location
+    identity {
+        typoe = "UserAssigned"
+        identity_ids = [var.user_assigned_identity_id]
+    }
     body = jsonencode({
-        identity = {
-            type = "UserAssigned"
-            userAssignedIdentities = {
-                var.user_assigned_identity_id = {
-                }
-        }        
         kind = "functionapp,workflowapp"
         properties = {
             serverFarmId: azurerm_service_plan.wsp.id
             keyVaultReferenceIdentity: var.user_assigned_identity_id
             httpsOnly = true
-            siteConfig = {
-                appSettings = [
-                    {
-                        name = "APP_KIND"
-                        value = "workflowapp"
-                    },
-                    {
-                        name = "ApplicationInsightsAgent_EXTENSION_VERSION"
-                        value = "~3"
-                    },
-                    {
-                        name = "ServiceBus_Namespace_HostName"
-                        value = ""
-                    },
-                    {
-                        name = "StorageAccount_Name"
-                        value = ""
-                    },
-                    {
-                        name = "XDT_MicrosoftApplicationInsights_Mode"
-                        value = "recommended"
-                    },
-                    {
-                        name = "FUNCTIONS_EXTENSION_VERSION"
-                        value = "~4"
-                    },
-                    {
-                        name = "AzureWebJobsStorage"
-                        value = var.web_jobs_storage_connection_string
-                    },
-                    {
-                        name = "FUNCTIONS_WORKER_RUNTIME"
-                        value = "dotnet-isolated"
-                    },
-                    {
-                        name = "WebJobsFeatureFlags"
-                        value = "EnableMultiLanguageWorker"
-                    },
-                    {
-                        name = "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING"
-                        value = var.web_jobs_storage_connection_string
-                    }
-                ]
-            }
+            # siteConfig = {
+            #     appSettings = [
+            #         {
+            #             name = "APP_KIND"
+            #             value = "workflowapp"
+            #         },
+            #         {
+            #             name = "ApplicationInsightsAgent_EXTENSION_VERSION"
+            #             value = "~3"
+            #         },
+            #         {
+            #             name = "ServiceBus_Namespace_HostName"
+            #             value = ""
+            #         },
+            #         {
+            #             name = "StorageAccount_Name"
+            #             value = ""
+            #         },
+            #         {
+            #             name = "XDT_MicrosoftApplicationInsights_Mode"
+            #             value = "recommended"
+            #         },
+            #         {
+            #             name = "FUNCTIONS_EXTENSION_VERSION"
+            #             value = "~4"
+            #         },
+            #         {
+            #             name = "AzureWebJobsStorage"
+            #             value = var.web_jobs_storage_connection_string
+            #         },
+            #         {
+            #             name = "FUNCTIONS_WORKER_RUNTIME"
+            #             value = "dotnet-isolated"
+            #         },
+            #         {
+            #             name = "WebJobsFeatureFlags"
+            #             value = "EnableMultiLanguageWorker"
+            #         },
+            #         {
+            #             name = "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING"
+            #             value = var.web_jobs_storage_connection_string
+            #         }
+            #     ]
+            # }
         }
     })
 }
