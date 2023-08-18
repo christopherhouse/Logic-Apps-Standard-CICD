@@ -44,7 +44,9 @@ resource azapi_resource "la" {
     body = jsonencode({
         identity = {
             type = "UserAssigned"
-            identity_ids = [var.user_assigned_identity_id]
+            userAssignedIdentities = {
+                var.user_assigned_identity_id = {
+                }
         }        
         kind = "functionapp,workflowapp"
         properties = {
