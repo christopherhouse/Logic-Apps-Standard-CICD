@@ -41,11 +41,11 @@ resource azapi_resource "la" {
     name = var.logic_app_name
     parent_id = data.azurerm_resource_group.rg.id
     location = var.location
-    identity {
-        type = "UserAssigned"
-        identity_ids = [var.user_assigned_identity_id]
-    }
     body = jsonencode({
+        identity = {
+            type = "UserAssigned"
+            identity_ids = [var.user_assigned_identity_id]
+        }        
         kind = "functionapp,workflowapp"
         properties = {
             serverFarmId: azurerm_service_plan.wsp.id
